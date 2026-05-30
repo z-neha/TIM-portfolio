@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neha Zope — Strategy & Operations Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2e4a;
+    --navy-mid: #2c4a6e;
+    --accent: #c47a3a;
+    --accent-light: #f0e4d0;
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --text: #1a2e4a;
+    --text-mid: #4a5568;
+    --text-light: #718096;
+    --border: #e2d9cc;
+    --tag-bg: #eef2f7;
+    --tag-text: #2c4a6e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--navy);
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--text-mid);
+    font-size: 0.85rem; font-weight: 400; letter-spacing: 0.04em;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 3rem 4rem;
+    max-width: 900px; margin: 0 auto;
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.08;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--text-mid);
+    max-width: 520px; line-height: 1.7;
+    margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px; border-radius: 3px;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--navy-mid); transform: translateY(-1px); }
+  .btn-outline {
+    border: 1px solid var(--navy);
+    color: var(--navy);
+    text-decoration: none;
+    padding: 12px 28px; border-radius: 3px;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-1px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 3rem;
+    font-size: 0.75rem; color: var(--text-light);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-scroll::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--border);
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 3rem; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 40px;
+    height: 1px; background: var(--accent);
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--navy); line-height: 1.2;
+    margin-bottom: 3rem;
+  }
+
+  /* ── SKILLS BAR ── */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    border-top: 3px solid var(--navy);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .skill-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,46,74,0.08); }
+  .skill-card h3 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .skill-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: flex; flex-direction: column; gap: 2rem; }
+
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    display: grid; grid-template-columns: 4px 1fr;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(26,46,74,0.1); }
+  .project-stripe { background: var(--navy); }
+  .project-stripe.accent { background: var(--accent); }
+  .project-stripe.teal { background: #2a7d6f; }
+  .project-stripe.slate { background: #4a5e78; }
+
+  .project-body { padding: 2rem 2rem 2rem 1.75rem; }
+  .project-meta {
+    display: flex; gap: 0.75rem; flex-wrap: wrap;
+    margin-bottom: 1rem; align-items: center;
+  }
+  .project-course {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-light);
+  }
+  .project-tag {
+    background: var(--tag-bg); color: var(--tag-text);
+    font-size: 0.7rem; font-weight: 500;
+    padding: 3px 10px; border-radius: 2px;
+    letter-spacing: 0.04em;
+  }
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem; color: var(--navy);
+    margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .project-desc { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 1.25rem; line-height: 1.7; }
+
+  .project-highlights { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .project-highlights li {
+    font-size: 0.87rem; color: var(--text);
+    padding-left: 1.25rem; position: relative; line-height: 1.6;
+  }
+  .project-highlights li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--accent); font-size: 0.8rem;
+  }
+
+  .project-metrics {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    border-top: 1px solid var(--border); padding-top: 1.25rem;
+  }
+  .metric { display: flex; flex-direction: column; gap: 2px; }
+  .metric-val { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); }
+  .metric-label { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 1.25rem; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+  .info-block h4 {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .info-block p, .info-block a {
+    font-size: 0.88rem; color: var(--text-mid);
+    text-decoration: none; line-height: 1.7;
+    display: block;
+  }
+  .info-block a:hover { color: var(--navy); }
+
+  /* ── CONTACT ── */
+  .contact-section { background: var(--navy); }
+  .contact-section .section-label { color: var(--accent); }
+  .contact-section .section-label::after { background: var(--accent); }
+  .contact-section .section-title { color: var(--white); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+  }
+  .contact-text { font-size: 0.95rem; color: rgba(255,255,255,0.65); line-height: 1.8; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: rgba(255,255,255,0.75);
+    font-size: 0.88rem; padding: 0.75rem 1rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px; transition: all 0.2s;
+  }
+  .contact-link:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); }
+  .contact-link .link-icon {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111e2e; color: rgba(255,255,255,0.35);
+    text-align: center; padding: 1.5rem 3rem;
+    font-size: 0.78rem; letter-spacing: 0.04em;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.7s ease both; }
+  .hero .hero-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero .hero-sub { animation-delay: 0.35s; }
+  .hero .hero-cta { animation-delay: 0.5s; }
+  .hero .hero-scroll { animation-delay: 0.65s; }
+
+  @media (max-width: 700px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { gap: 1.25rem; }
+    section, .hero { padding: 4rem 1.25rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">Neha Zope</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">Strategy · Operations · Product</span>
+  <h1>Turning data into<br><em>decisions.</em></h1>
+  <p class="hero-sub">
+    Recent UC Santa Cruz graduate with a minor in Technology &amp; Information Management. I work at the intersection of business strategy, supply chain analysis, and product development.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">View Projects ↓</a>
+    <a href="mailto:nehazope99@gmail.com" class="btn-outline">Get in Touch</a>
+  </div>
+  <span class="hero-scroll">Scroll to explore</span>
+</div>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-label">Capabilities</p>
+    <h2 class="section-title">What I bring to the table</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Strategy &amp; Analysis</h3>
+        <p>Porter's Five/Six Forces, competitive positioning, market sizing, FAST diagrams, House of Quality, JTBD, 4C Criteria</p>
+      </div>
+      <div class="skill-card">
+        <h3>Financial Modeling</h3>
+        <p>NPV analysis, sensitivity analysis (±30%), integer programming, ROI/ROIC evaluation, go-to-market financial planning</p>
+      </div>
+      <div class="skill-card">
+        <h3>Supply Chain</h3>
+        <p>EOQ modeling, demand forecasting (5 methods), safety inventory, cycle inventory, transportation mode analysis, supplier sourcing</p>
+      </div>
+      <div class="skill-card">
+        <h3>Product Development</h3>
+        <p>Morphological matrices, utility functions, product platform strategy, Design Structure Matrix, Gantt charts, roadmapping</p>
+      </div>
+      <div class="skill-card">
+        <h3>Tools</h3>
+        <p>Microsoft Excel (advanced: Solver, Sensitivity, forecasting), Figma, Adobe Creative Suite, Python, HTML/CSS</p>
+      </div>
+      <div class="skill-card">
+        <h3>IT &amp; Systems</h3>
+        <p>Enterprise systems (SAP, Oracle, Workday), IT governance frameworks, Jobs to Be Done, business transformation analysis</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label">Featured Projects</p>
+    <h2 class="section-title">Academic work, real-world rigor</h2>
+    <div class="projects-grid">
+
+      <!-- SCM -->
+      <div class="project-card">
+        <div class="project-stripe"></div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-course">TIM 172B · Winter 2024</span>
+            <span class="project-tag">Supply Chain</span>
+            <span class="project-tag">Forecasting</span>
+            <span class="project-tag">Excel</span>
+          </div>
+          <h3>Supply Chain Strategy &amp; Demand Forecasting — SPC Plastics</h3>
+          <p class="project-desc">
+            Acted as supply chain consultant for SPC, a recyclable container manufacturer. Designed end-to-end SC strategy from competitive analysis through inventory policy and transportation selection.
+          </p>
+          <ul class="project-highlights">
+            <li>Applied Porter's Six Forces to determine cost leadership strategy; mapped SPC on IDU and responsiveness/efficiency spectrums to identify strategic fit</li>
+            <li>Evaluated 5 demand forecasting methods in Excel — Static, Moving Average, Simple &amp; Double Exponential Smoothing, Holt's, Winter's — selecting Static based on lowest MAPE (7.66 vs. 64K–773K for alternatives)</li>
+            <li>Built EOQ model: optimal lot size 2,018 units, 13 shipments/year, 29-day replenishment cycle, $3,784 annual holding cost; modeled a 44,921-unit forward-buy to maximize savings on a 20% supplier discount</li>
+            <li>Developed safety inventory policy (6,139 units) using CSL-based modeling; designed supplier scorecard using cost minimization + weighted utility function; selected rail over truck via full annual cost model saving $26,570/year</li>
+          </ul>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-val">7.66</span><span class="metric-label">MAPE (Static method)</span></div>
+            <div class="metric"><span class="metric-val">$3,784</span><span class="metric-label">Annual holding cost</span></div>
+            <div class="metric"><span class="metric-val">$26,570</span><span class="metric-label">Transport cost savings</span></div>
+            <div class="metric"><span class="metric-val">5</span><span class="metric-label">Forecasting methods evaluated</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VR -->
+      <div class="project-card">
+        <div class="project-stripe accent"></div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-course">TIM 172A · Fall 2023</span>
+            <span class="project-tag">Product Development</span>
+            <span class="project-tag">Financial Modeling</span>
+            <span class="project-tag">NPV</span>
+          </div>
+          <h3>VR Entertainment System — Product Development &amp; Financial Analysis</h3>
+          <p class="project-desc">
+            Served as senior product/technology manager designing a next-generation VR system. Conducted competitive teardowns, structured concept selection, and built a full financial model to justify development investment.
+          </p>
+          <ul class="project-highlights">
+            <li>Dissected Sony PSVR, Oculus Rift, and Microsoft Kinect using FAST diagrams; mapped customer needs to technical metrics via House of Quality</li>
+            <li>Generated morphological matrix with 25 design alternatives across 5 solution-principle categories; selected optimal concept via utility function</li>
+            <li>Built 4-year quarterly NPV model (10% discount rate); determined max development cost of $262.3M and derived NPV trade-off law through ±30% sensitivity analysis</li>
+            <li>Defined product platform and line strategy across 3 market segments (serious gamer, casual, professional) with multi-year roadmap; managed execution via Design Structure Matrix and Gantt chart</li>
+          </ul>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-val">$262.3M</span><span class="metric-label">Max justifiable dev cost</span></div>
+            <div class="metric"><span class="metric-val">±30%</span><span class="metric-label">Sensitivity range tested</span></div>
+            <div class="metric"><span class="metric-val">25</span><span class="metric-label">Design alternatives</span></div>
+            <div class="metric"><span class="metric-val">3</span><span class="metric-label">Market segments</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Microsoft -->
+      <div class="project-card">
+        <div class="project-stripe teal"></div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-course">TIM 172A · Fall 2023</span>
+            <span class="project-tag">Competitive Strategy</span>
+            <span class="project-tag">Enterprise Software</span>
+            <span class="project-tag">Portfolio Optimization</span>
+          </div>
+          <h3>Microsoft Competitive Strategy &amp; Enterprise Software Portfolio</h3>
+          <p class="project-desc">
+            Analyzed Microsoft's 1995 integrated business, technology, and product strategy. Developed forward-looking recommendations and validated them against Microsoft's actual 1996–2009 strategic moves.
+          </p>
+          <ul class="project-highlights">
+            <li>Applied 3-stage framework: company analysis (vision, revenue, 83.5% OS market share), Porter's Six Forces, and competitive strategy assessment</li>
+            <li>Generated 3 strategic recommendations validated against real Microsoft initiatives (Internet Explorer, Windows XP, Yahoo/Bing)</li>
+            <li>Optimized a $100M enterprise SCM software portfolio using integer programming to maximize expected monetary value; evaluated ROIC across 5 projects</li>
+            <li>Built House of Quality for the proposed 'Exbox' game console via FAST diagram benchmarking against Nintendo 64 and TurboGrafx-16</li>
+          </ul>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-val">83.5%</span><span class="metric-label">OS market share analyzed</span></div>
+            <div class="metric"><span class="metric-val">$100M</span><span class="metric-label">Portfolio optimized</span></div>
+            <div class="metric"><span class="metric-val">5</span><span class="metric-label">SCM projects evaluated</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Robotic Vacuum -->
+      <div class="project-card">
+        <div class="project-stripe slate"></div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-course">TIM 80C · 2022–2023</span>
+            <span class="project-tag">Market Sizing</span>
+            <span class="project-tag">Go-to-Market</span>
+            <span class="project-tag">Startup Strategy</span>
+          </div>
+          <h3>Robotic Vacuum Cleaner — Product Design &amp; Market Analysis</h3>
+          <p class="project-desc">
+            Conducted end-to-end product conceptual design for a robotic vacuum startup, from market sizing and competitive positioning through a full business plan and funding strategy.
+          </p>
+          <ul class="project-highlights">
+            <li>Sized the $12B robotic vacuum market (27% CAGR); mapped competitive positioning of iRobot, Dyson, and Shark via FAST diagrams and morphological matrices</li>
+            <li>Developed full go-to-market strategy and startup business plan with NPV cash flow analysis and $10M funding strategy</li>
+          </ul>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-val">$12B</span><span class="metric-label">Market sized</span></div>
+            <div class="metric"><span class="metric-val">27%</span><span class="metric-label">CAGR</span></div>
+            <div class="metric"><span class="metric-val">$10M</span><span class="metric-label">Funding strategy</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label">About</p>
+    <h2 class="section-title">A little background</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I graduated from UC Santa Cruz in June 2025 with a B.A. in Art and Design: Games and Playable Media and a minor in Technology and Information Management. My TIM coursework gave me a rigorous foundation in the kind of analytical thinking that drives real business decisions.
+        </p>
+        <p>
+          Through my coursework I've worked on everything from building NPV financial models and optimizing supply chain inventory policies, to conducting Porter's Six Forces analyses and designing product platforms for multiple market segments. I'm comfortable in Excel and love translating messy data into a clear recommendation.
+        </p>
+        <p>
+          Outside of analytics, I have hands-on experience in content strategy and digital marketing from my internship at Hunch Studios and my time leading social media for UCSC Kahaani. I'm looking for entry-level roles in operations, product management, business analysis, or supply chain where I can keep developing.
+        </p>
+      </div>
+      <div class="about-sidebar">
+        <div class="info-block">
+          <h4>Education</h4>
+          <p>B.A. Art &amp; Design: Games &amp; Playable Media<br>Minor in Technology &amp; Information Management<br>UC Santa Cruz · Class of 2025</p>
+        </div>
+        <div class="info-block">
+          <h4>Location</h4>
+          <p>Fremont, CA</p>
+        </div>
+        <div class="info-block">
+          <h4>Coursework</h4>
+          <p>TIM 80C · Technology &amp; Innovation Management<br>TIM 170 · IT Management &amp; Business Transformation<br>TIM 172A · Product Development &amp; Project Management<br>TIM 172B · Supply Chain Management<br>Econ 100A · Microeconomic Theory<br>Econ 100B · Macroeconomic Theory</p>
+        </div>
+        <div class="info-block">
+          <h4>Interests</h4>
+          <p>Operations strategy · Product management<br>Supply chain · Business analytics · UX</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-inner">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Let's connect</h2>
+    <div class="contact-links" style="max-width: 400px;">
+        <a href="mailto:nehazope99@gmail.com" class="contact-link">
+          <span class="link-icon">✉</span>
+          nehazope99@gmail.com
+        </a>
+        <a href="https://linkedin.com/in/neha-s-zope" class="contact-link" target="_blank" rel="noopener">
+          <span class="link-icon">in</span>
+          linkedin.com/in/neha-s-zope
+        </a>
+        <a href="tel:4088909547" class="contact-link">
+          <span class="link-icon">☏</span>
+          408-890-9547
+        </a>
+      </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Neha Zope &nbsp;·&nbsp; Strategy &amp; Operations Portfolio
+</footer>
+
+</body>
+</html>
